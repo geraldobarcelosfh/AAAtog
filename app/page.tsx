@@ -28,11 +28,11 @@ export default async function HomePage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 h-[600px]">
           {/* Bloco Principal - Esquerda */}
           <div className="lg:col-span-2 relative overflow-hidden group cursor-pointer">
-            <div
-              className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
-              style={{
-                backgroundImage: `url('${featuredArticle.image.url}')`,
-              }}
+            <Image
+              src={featuredArticle.image.url}
+              alt={featuredArticle.image.alt}
+              fill
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
 
@@ -73,11 +73,11 @@ export default async function HomePage() {
           <div className="flex flex-col gap-4">
             {secondaryArticles.map((article) => (
               <div key={article.id} className="relative overflow-hidden group cursor-pointer flex-1">
-                <div
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
-                  style={{
-                    backgroundImage: `url('${article.image.url}')`,
-                  }}
+                <Image
+                  src={article.image.url}
+                  alt={article.image.alt}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
 
