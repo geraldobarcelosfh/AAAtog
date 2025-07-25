@@ -25,3 +25,10 @@ nix
          };
        };
      }
+        scripts = {
+          "dev" = "npx next dev";
+          "build" = "npx next build";
+          "start" = "npx next start";
+          "lint" = "npx next lint";
+        };
+        };
