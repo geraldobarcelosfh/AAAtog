@@ -1,0 +1,58 @@
+type User @table {
+  displayName: String!
+  email: String!
+  photoUrl: String
+  createdAt: Timestamp!
+  updatedAt: Timestamp!
+}
+
+type Movie @table {
+  title: String!
+  releaseYear: Int!
+  summary: String
+  posterUrl: String
+  runtimeMinutes: Int
+  createdAt: Timestamp!
+  updatedAt: Timestamp!
+}
+
+type Genre @table {
+  name: String!
+  createdAt: Timestamp!
+  updatedAt: Timestamp!
+}
+
+type MovieGenre @table(key: ["movie", "genre"]) {
+  movie: Movie!
+  genre: Genre!
+  createdAt: Timestamp!
+  updatedAt: Timestamp!
+}
+
+type WatchEntry @table {
+  user: User!
+  movie: Movie!
+  watchDate: Date!
+  rating: Int
+  reviewText: String
+  isPublic: Boolean!
+  createdAt: Timestamp!
+  updatedAt: Timestamp!
+}
+
+type Watchlist @table {
+  owner: User! # Renamed from 'user' to 'owner' to avoid conflict with 'User' type
+  name: String!
+  description: String
+  isPublic: Boolean!
+  createdAt: Timestamp!
+  updatedAt: Timestamp!
+}
+
+type WatchlistItem @table(key: ["watchlist", "movie"]) {
+  watchlist: Watchlist!
+  movie: Movie!
+  note: String
+  createdAt: Timestamp!
+  updatedAt: Timestamp!
+}
