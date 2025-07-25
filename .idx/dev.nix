@@ -5,7 +5,6 @@ nix
           pkgs.nodejs_20
           pkgs.nextjs # Add this line to install Next.js
         ];
-        idx.extensions = [
 
         ];
         idx.previews = {
