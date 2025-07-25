@@ -1,12 +1,12 @@
 specVersion: "v1"
 serviceId: "tog-final"
-location: "us-east1"
+location: "us-central1"
 schema:
   source: "./schema"
   datasource:
     postgresql:
-      database: "togfinal-datab"
+      database: "fdcdb"
       cloudSql:
-        instanceId: "studio-fdc"
+        instanceId: "tog-final-fdc"
       # schemaValidation: "COMPATIBLE"
 connectorDirs: ["./connector"]
