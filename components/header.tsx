@@ -1,4 +1,7 @@
+"use client"
+
 import Link from "next/link"
+import { useState } from "react"
 
 const navigation = [
   { name: "Política", href: "/categoria/politica" },
@@ -9,6 +12,8 @@ const navigation = [
 ]
 
 export default function Header() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+
   return (
     <header className="bg-white border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -40,6 +45,7 @@ export default function Header() {
               type="button"
               className="text-cinza-carvao hover:text-dourado-queimado focus:outline-none focus:text-dourado-queimado transition-colors duration-200"
               aria-label="Menu principal"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
@@ -49,19 +55,21 @@ export default function Header() {
         </div>
 
         {/* Mobile menu */}
-        <div className="md:hidden pb-6">
-          <nav className="flex flex-col space-y-4">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className="text-cinza-carvao hover:text-dourado-queimado font-medium transition-colors duration-200"
-              >
-                {item.name}
-              </Link>
-            ))}
-          </nav>
-        </div>
+        {isMenuOpen && (
+          <div className="md:hidden pb-6">
+            <nav className="flex flex-col space-y-4">
+              {navigation.map((item) => (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className="text-cinza-carvao hover:text-dourado-queimado font-medium transition-colors duration-200"
+                >
+                  {item.name}
+                </Link>
+              ))}
+            </nav>
+          </div>
+        )}
       </div>
     </header>
   )
