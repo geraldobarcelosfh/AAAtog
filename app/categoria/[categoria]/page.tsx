@@ -1,5 +1,8 @@
 import Link from "next/link"
 import Image from "next/image"
+import { getArticlesByCategory, type Article } from "@/services/strapi"
+
+export const revalidate = 3600
 
 const categorias = {
   politica: "Política",
@@ -7,30 +10,6 @@ const categorias = {
   cultura: "Cultura",
   regiao: "Região",
   opiniao: "Opinião",
-}
-
-// Dados mockados para demonstração
-const articlesByCategory = {
-  economia: [
-    {
-      id: 1,
-      title: "Desenvolvimento Econômico Impulsiona Crescimento no Oeste Goiano",
-      excerpt: "Novos investimentos em infraestrutura e agronegócio prometem transformar a região.",
-      image: "/placeholder.svg?height=300&width=400",
-      publishedAt: "2024-01-15",
-      slug: "desenvolvimento-economico-oeste-goiano",
-    },
-  ],
-  cultura: [
-    {
-      id: 2,
-      title: "Nova Lei de Incentivo à Cultura é Aprovada",
-      excerpt: "Medida visa fortalecer o setor cultural da região com recursos e benefícios fiscais.",
-      image: "/placeholder.svg?height=300&width=400",
-      publishedAt: "2024-01-14",
-      slug: "nova-lei-incentivo-cultura",
-    },
-  ],
 }
 
 interface CategoryPageProps {
@@ -45,14 +24,31 @@ export async function generateMetadata({ params }: CategoryPageProps) {
   return {
     title: `${categoryName} - Tribuna do Oeste Goiano`,
     description: `Notícias de ${categoryName} do Oeste Goiano`,
+    openGraph: {
+      title: `${categoryName} - Tribuna do Oeste Goiano`,
+      description: `Notícias de ${categoryName} do Oeste Goiano`,
+      url: `${process.env.NEXT_PUBLIC_SITE_URL}/categoria/${params.categoria}`,
+    },
+    alternates: {
+      canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/categoria/${params.categoria}`,
+    },
   }
 }
 
-export default function CategoryPage({ params }: CategoryPageProps) {
+export default async function CategoryPage({ params }: CategoryPageProps) {
   const categoryName = categorias[params.categoria as keyof typeof categorias]
-  const articles = articlesByCategory[params.categoria as keyof typeof articlesByCategory] || []
+  let articles: Article[] = []
+  let fetchError = false
+  if (categoryName) {
+    try {
+      articles = await getArticlesByCategory(categoryName)
+    } catch (e) {
+      console.error(e)
+      fetchError = true
+    }
+  }
 
-  if (!categoryName) {
+  if (!categoryName || fetchError) {
     return (
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
         <h1 className="text-3xl font-serif font-bold text-preto-fosco mb-4">Categoria não encontrada</h1>

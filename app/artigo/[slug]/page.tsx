@@ -3,6 +3,8 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 import { getArticle } from "@/services/strapi"
 
+export const revalidate = 3600
+
 interface ArticlePageProps {
   params: {
     slug: string
@@ -25,6 +27,9 @@ export async function generateMetadata({ params }: ArticlePageProps) {
       title: article.title,
       description: article.excerpt,
       images: [article.image.url],
+    },
+    alternates: {
+      canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/artigo/${article.slug}`,
     },
   }
 }
