@@ -4,6 +4,7 @@ import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import DOMPurify from "isomorphic-dompurify";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -35,19 +36,24 @@ export function ContactForm() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    const sanitized = {
+      ...values,
+      message: DOMPurify.sanitize(values.message),
+    }
     const response = await fetch("/api/contact", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(values),
+      body: JSON.stringify(sanitized),
     });
 
     if (response.ok) {
-      toast.success("Mensagem enviada com sucesso!");
-      form.reset();
+      toast.success("Mensagem enviada com sucesso!")
+      form.reset()
     } else {
-      toast.error("Ocorreu um erro ao enviar a mensagem.");
+      const msg = await response.text()
+      toast.error(msg || "Erro ao enviar")
     }
   }
 

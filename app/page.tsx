@@ -1,6 +1,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { getArticles } from "@/services/strapi"
+import { useArticlesByCategory } from "@/hooks/use-articles-by-category"
 
 export default async function HomePage() {
   const articles = await getArticles()
@@ -16,10 +17,8 @@ export default async function HomePage() {
 
   const featuredArticle = articles[0]
   const secondaryArticles = articles.slice(1, 3)
-  const politicsArticles = articles.filter((a) => a.category === "Política").slice(0, 4)
-  const economyArticles = articles.filter((a) => a.category === "Economia").slice(0, 4)
-  const cultureArticles = articles.filter((a) => a.category === "Cultura").slice(0, 4)
-  const regionArticles = articles.filter((a) => a.category === "Região").slice(0, 4)
+  const { politics: politicsArticles, economy: economyArticles, culture: cultureArticles, region: regionArticles } =
+    useArticlesByCategory(articles)
 
   return (
     <div className="bg-white">

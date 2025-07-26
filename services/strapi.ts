@@ -108,3 +108,31 @@ export async function getArticle(slug: string) {
     return null
   }
 }
+
+export type Article = ReturnType<typeof transformArticle>
+
+export async function getArticlesByCategory(slug: string) {
+  const query = qs.stringify(
+    {
+      filters: { category: { name: slug } },
+      populate: ["image", "author"],
+      sort: ["publishedAt:desc"],
+    },
+    { encodeValuesOnly: true }
+  )
+  const res = await fetch(`${STRAPI_URL}/api/articles?${query}`)
+  if (!res.ok) throw new Error("Erro ao buscar artigos")
+  const { data } = await res.json()
+  return data.map(transformArticle)
+}
+
+export async function searchArticles(term: string) {
+  const query = qs.stringify(
+    { filters: { title: { $containsi: term } }, populate: ["image"] },
+    { encodeValuesOnly: true }
+  )
+  const res = await fetch(`${STRAPI_URL}/api/articles?${query}`)
+  if (!res.ok) throw new Error("Erro na busca")
+  const { data } = await res.json()
+  return data.map(transformArticle)
+}
