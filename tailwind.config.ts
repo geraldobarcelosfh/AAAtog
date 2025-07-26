@@ -63,9 +63,9 @@ const config: Config = {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
-        "preto-fosco": "#000000",
-        "cinza-carvao": "#353330",
-        "dourado-queimado": "#BC8C27",
+        "preto-fosco": "#111111",
+        "cinza-carvao": "#333333",
+        "dourado-queimado": "#B8860B",
       },
       borderRadius: {
         lg: "var(--radius)",

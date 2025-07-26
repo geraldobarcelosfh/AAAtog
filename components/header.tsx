@@ -1,7 +1,7 @@
 "use client"
 
+import React, { useState } from "react"
 import Link from "next/link"
-import { useState } from "react"
 
 const navigation = [
   { name: "Política", href: "/categoria/politica" },
@@ -45,6 +45,7 @@ export default function Header() {
               type="button"
               className="text-cinza-carvao hover:text-dourado-queimado focus:outline-none focus:text-dourado-queimado transition-colors duration-200"
               aria-label="Menu principal"
+              aria-expanded={isMenuOpen}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
